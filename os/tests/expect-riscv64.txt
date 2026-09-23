@@ -1,0 +1,34 @@
+Hello OS from riscv64 (Lab9: shell and userspace)
+switched to page table, low identity map gone
+timer armed, ecall entry armed, mounting filesystem
+virtio: block device at slot 0 (0x10001000), version 2
+virtio: queue 0 ready (8 descriptors), polled read-only
+fs: mounted, magic ok, 512 blocks, 32 inodes, data from block 18
+fs: kernel-side read of motd.txt (inode 4, 143 bytes): osdev-lab9: userspace is alive
+filesystem ready, loading /init
+init loaded (pid 1), entering scheduler
+$ echo lab9 shell up
+lab9 shell up
+$ ls
+exact.txt
+initrc
+motd.txt
+init
+sh
+ls
+cat
+echo
+grep
+$ cat /motd.txt
+osdev-lab9: userspace is alive
+this file lives on a virtual disk, in a lab filesystem
+read by cat, filtered by grep, both running in user mode
+$ grep lab < /motd.txt
+osdev-lab9: userspace is alive
+this file lives on a virtual disk, in a lab filesystem
+$ cat /motd.txt | grep lab
+osdev-lab9: userspace is alive
+this file lives on a virtual disk, in a lab filesystem
+$ echo initrc done
+initrc done
+init: initrc finished

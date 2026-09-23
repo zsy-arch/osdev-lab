@@ -26,3 +26,8 @@ jobs:
 
       - name: Run all lab tests (x86_64 + riscv64)
         run: bash scripts/run-all-tests.sh
+
+      - name: Build and test integrated OS (os/, x86_64 + riscv64)
+        run: |
+          cd os
+          make test-all
