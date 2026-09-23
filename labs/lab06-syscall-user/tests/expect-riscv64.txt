@@ -1,0 +1,8 @@
+memmap: 1 region(s) from DTB /memory,
+Hello OS from riscv64 (Lab6: syscall & user mode)
+kernel image: phys [0x80200000, 0x80228000)
+switched to page table, low identity map gone
+timer armed, ecall entry armed, building user program
+user program mapped, entering user mode
+hello from user mode (riscv64, ecall/sret)
+user program exited with code 0

@@ -1,0 +1,6 @@
+echo lab9 shell up
+ls
+cat /motd.txt
+grep lab < /motd.txt
+cat /motd.txt | grep lab
+echo initrc done

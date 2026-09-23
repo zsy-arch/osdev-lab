@@ -1,0 +1,7 @@
+memmap: 1 region(s) from DTB /memory,
+Hello OS from riscv64 (Lab5: interrupt & timer)
+switched to Lab4 page table, low identity map gone
+page table from Lab4 verified, moving on to Lab5's interrupt framework
+timer armed at 100Hz, entering main loop
+tick: 1 seconds
+tick: 2 seconds

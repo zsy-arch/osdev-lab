@@ -1,0 +1,20 @@
+Hello OS from x86_64 (Lab8: filesystem)
+switched to page table, low identity map gone
+timer armed, syscall entry armed, mounting filesystem
+ide: ATA primary master ready, PIO LBA28 read-only, IRQ 14 disabled
+fs: mounted, magic ok, 64 blocks, 16 inodes, data from block 4
+fs: bitmap self-check ok, 11/64 blocks in use
+fs: kernel-side read of motd.txt (inode 4, 1824 bytes): === Lab8 motd.txt ===
+filesystem ready, creating initial process
+initial process created, entering scheduler
+user: reading hello.txt
+hello from the disk!
+user: reading motd.txt in 128-byte chunks
+=== Lab8 motd.txt ===
+user: motd.txt reached EOF
+user: reading exact.txt (exactly one block)
+exact.txt: exactly 512 bytes, one full block.
+user: exact.txt reached EOF without overrun
+user: open(nope.txt) correctly failed
+user: double close correctly failed
+user: all file tests passed

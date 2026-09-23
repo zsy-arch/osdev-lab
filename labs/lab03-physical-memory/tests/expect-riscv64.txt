@@ -1,0 +1,8 @@
+Hello OS from riscv64 (Lab3: physical memory)
+memmap: 1 region(s) from DTB /memory, 32249 page(s) free (kernel image excluded)
+kalloc_pages(4) = 0x80207000
+kalloc/kfree round-trip OK, free pages unchanged at 32249
+*** KERNEL PANIC ***
+at labs/lab03-physical-memory/solution/riscv64/kernel_main.c:
+Lab3 checkpoint: kalloc/kfree verified, halting here on purpose
+System halted.

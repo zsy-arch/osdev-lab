@@ -1,0 +1,10 @@
+Hello OS from x86_64 (Lab7: processes & scheduling)
+memmap: 2 available region(s) from Multiboot2 mmap tag,
+switched to page table, low identity map gone
+timer armed, syscall entry armed, creating initial process
+initial process created, entering scheduler
+root: forking child
+root: waiting for child
+child: running, calling exec
+child: reborn after exec, exiting
+root: child reaped

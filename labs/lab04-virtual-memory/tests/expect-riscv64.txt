@@ -1,0 +1,10 @@
+memmap: 1 region(s) from DTB /memory,
+Hello OS from riscv64 (Lab4: virtual memory)
+switched to Lab4 page table, low identity map gone
+non-identity mapping OK: VA=0xffffffc010000000 -> PA=0x80200000
+kernel self-map verified
+trap_init() done, about to trigger a deliberate page fault
+page fault: addr=0xdead0000 reason=read (scause=13)
+*** KERNEL PANIC ***
+supervisor_trap_handler: unrecoverable page fault (Lab4 does not implement fault recovery)
+System halted.

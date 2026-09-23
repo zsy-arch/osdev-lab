@@ -1,0 +1,6 @@
+Hello OS from riscv64 (Lab2: kernel entry)
+untouched_bss_counter = 0 (expect 0, proves boot.S zeroed .bss)
+*** KERNEL PANIC ***
+at labs/lab02-kernel-entry/solution/riscv64/kernel_main.c:
+Lab2 checkpoint: intentional panic to verify file/line reporting
+System halted.

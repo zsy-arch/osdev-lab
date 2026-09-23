@@ -1,0 +1,8 @@
+Hello OS from x86_64 (Lab3: physical memory)
+memmap: 2 available region(s) from Multiboot2 mmap tag, 32480 page(s) free
+kalloc_pages(4) = 0x100000
+kalloc/kfree round-trip OK, free pages unchanged at 32480
+*** KERNEL PANIC ***
+at labs/lab03-physical-memory/solution/x86_64/kernel_main.c:
+Lab3 checkpoint: kalloc/kfree verified, halting here on purpose
+System halted.

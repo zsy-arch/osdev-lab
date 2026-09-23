@@ -1,0 +1,10 @@
+Hello OS from x86_64 (Lab4: virtual memory)
+memmap: 2 available region(s) from Multiboot2 mmap tag,
+switched to Lab4 page table, low identity map gone
+non-identity mapping OK: VA=0xffffffff90000000 -> PA=0x100000
+kernel self-map verified
+idt_init() done, about to trigger a deliberate page fault
+page fault: addr=0xdead0000 error_code=0 (not-present,read,kernel)
+*** KERNEL PANIC ***
+page_fault_handler: unrecoverable page fault (Lab4 does not implement fault recovery)
+System halted.

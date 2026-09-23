@@ -1,0 +1,10 @@
+exact.txt: exactly 512 bytes, one full block.
+
+This pins down the boundary where a file size is an exact multiple of
+BSIZE -- the one place the write side (mkfs) and the read side (fs_read)
+can disagree. mkfs stops after filling the last block, so addrs[1] stays
+0; a naive fs_read looping "while a block remains" would read block 0
+and return garbage. A correct fs_read clamps on inode.size.
+
+Pure ASCII on purpose: one byte per char. Tail padded to land on 512.
+-----------------------------------------------

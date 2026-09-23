@@ -1,0 +1,8 @@
+# Lab0 没有内核代码，不走"QEMU 串口输出匹配"这条路（跟 Lab1 起的 tests/expect.txt
+# 语义不同：那些文件里每一行都是必须在串口输出里出现的子串，会被 scripts/test-lab.sh
+# 消费）。这个文件只是给人看的验收标准说明，run.sh 不会读它。
+#
+# 本 Lab 的验收标准：
+#   bash tests/run.sh
+# 退出码为 0，等价于 scripts/check-env.sh 报告"环境检查通过"且没有任何 [MISS] 的
+# 必需项（可选项标 [SKIP] 没关系，比如还没装 Rust）。

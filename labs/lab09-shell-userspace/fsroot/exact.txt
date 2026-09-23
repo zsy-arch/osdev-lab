@@ -1,0 +1,9 @@
+This file is exactly 512 bytes long, i.e. exactly one block.
+It exists to pin down one boundary in fs_read(): when a file
+size is a whole multiple of BSIZE, the read loop must stop on
+the byte count, not on "the next addrs[] slot is zero". Get
+that wrong and reading this file returns 512 extra bytes taken
+from block 0 -- the superblock -- because addrs[1] is 0 and 0
+happens to be a real, readable block number.
+The line below pads the file to the exact size; do not edit.
+pad: ===============================

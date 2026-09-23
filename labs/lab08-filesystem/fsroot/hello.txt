@@ -1,0 +1,2 @@
+hello from the disk!
+这一行来自磁盘上的 hello.txt，不是内核里的字符串常量。

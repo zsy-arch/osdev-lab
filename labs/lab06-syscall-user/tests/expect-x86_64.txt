@@ -1,0 +1,7 @@
+Hello OS from x86_64 (Lab6: syscall & user mode)
+memmap: 2 available region(s) from Multiboot2 mmap tag,
+switched to page table, low identity map gone
+timer armed, syscall entry armed, building user program
+user program mapped, entering user mode
+hello from user mode (x86_64, SYSCALL/SYSRET)
+user program exited with code 0

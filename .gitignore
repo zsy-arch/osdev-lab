@@ -1,0 +1,26 @@
+# 构建产物：每个 Lab 的 solution/starter 各自在 <arch>/build/ 下生成，
+# 全部可以由 `make ARCH=... LAB=... VARIANT=... build` 从源码重新生成，
+# 不需要进版本库。`make clean` 会把下面这些全部删掉。
+build/
+*.o
+*.elf
+*.iso
+*.img
+
+# user_prog.bin 是 user_prog.S 经过链接+objcopy 之后的裸二进制，
+# 由 user_blob.S 嵌进内核镶像，属于中间产物（见各 Lab Makefile 的
+# clean 目标，它跟 build/ 一起被清理）。
+user_prog.bin
+
+# 串口输出抓取：scripts/test-lab.sh 跑 QEMU 时的临时日志。
+*.serial.log
+serial-*.txt
+
+# macOS
+.DS_Store
+
+# vscode files
+.history/
+.vscode/
+
+tmp/

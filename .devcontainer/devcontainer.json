@@ -1,0 +1,36 @@
+{
+  "name": "osdev-lab",
+  "build": {
+    "dockerfile": "../docker/Dockerfile",
+    "context": ".."
+  },
+  "workspaceFolder": "/workspace",
+  "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=cached",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-vscode.cpptools",
+        "ms-vscode.cpptools-extension-pack",
+        "webfreak.debug",
+        "rust-lang.rust-analyzer",
+        "vadimcn.vscode-lldb",
+        "ms-vscode.makefile-tools"
+      ],
+      "settings": {
+        "C_Cpp.default.cStandard": "c11",
+        "C_Cpp.default.compilerPath": "/usr/bin/clang",
+        "files.associations": {
+          "*.ld": "linkerscript"
+        },
+        "editor.tabSize": 4,
+        "editor.insertSpaces": true
+      }
+    }
+  },
+  "runArgs": [
+    "--cap-add=SYS_PTRACE",
+    "--security-opt", "seccomp=unconfined"
+  ],
+  "postCreateCommand": "bash scripts/check-env.sh || true",
+  "remoteUser": "root"
+}

@@ -1,0 +1,3 @@
+osdev-lab9: userspace is alive
+this file lives on a virtual disk, in a lab filesystem
+read by cat, filtered by grep, both running in user mode
