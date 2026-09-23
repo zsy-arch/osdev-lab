@@ -52,8 +52,8 @@ _user_start:
     li t0, 0
     bne s0, t0, reborn_branch
 
-    la a0, msg_root_fork
-    la a1, msg_root_fork_end
+    lla a0, msg_root_fork
+    lla a1, msg_root_fork_end
     sub a1, a1, a0
     li a7, 1 /* SYS_WRITE */
     ecall
@@ -68,8 +68,8 @@ _user_start:
     blt a0, t0, root_fork_failed
 
     /* ---- 父进程（root）分支：等子进程，回收，退出 ---- */
-    la a0, msg_root_wait
-    la a1, msg_root_wait_end
+    lla a0, msg_root_wait
+    lla a1, msg_root_wait_end
     sub a1, a1, a0
     li a7, 1 /* SYS_WRITE */
     ecall
@@ -82,8 +82,8 @@ root_wait_retry:
     li t0, 0
     blt a0, t0, root_wait_retry /* 本 Lab 的 wait() 不阻塞，没找到就自己重试。 */
 
-    la a0, msg_root_reaped
-    la a1, msg_root_reaped_end
+    lla a0, msg_root_reaped
+    lla a1, msg_root_reaped_end
     sub a1, a1, a0
     li a7, 1 /* SYS_WRITE */
     ecall
@@ -94,8 +94,8 @@ root_wait_retry:
     j halt_loop
 
 root_fork_failed:
-    la a0, msg_root_fork_failed
-    la a1, msg_root_fork_failed_end
+    lla a0, msg_root_fork_failed
+    lla a1, msg_root_fork_failed_end
     sub a1, a1, a0
     li a7, 1 /* SYS_WRITE */
     ecall
@@ -111,8 +111,8 @@ root_fork_failed:
      * 跟 x86_64 侧同一处注释一样，避免重复一个已经在上面处理过的判断，
      * 也避免出现"判断位置错了"那个真实教训对应的写法。） */
 child_branch:
-    la a0, msg_child_exec
-    la a1, msg_child_exec_end
+    lla a0, msg_child_exec
+    lla a1, msg_child_exec_end
     sub a1, a1, a0
     li a7, 1 /* SYS_WRITE */
     ecall
@@ -130,8 +130,8 @@ reborn_branch:
     /* exec 之后重新出生：s0==1，不再 fork，打印消息后直接退出，保证
      * 这条命运线单向、必然终止，不会重新触发顶部模块注释说的无限链
      * 问题（本文件只有一处 fork，在 s0==0 的分支里）。 */
-    la a0, msg_reborn
-    la a1, msg_reborn_end
+    lla a0, msg_reborn
+    lla a1, msg_reborn_end
     sub a1, a1, a0
     li a7, 1 /* SYS_WRITE */
     ecall

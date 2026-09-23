@@ -36,8 +36,8 @@ _user_start:
      * 能直接工作是两种汇编器在"立即数表达式几时求值"上的差异，不是
      * 抄错。改用两个 la 分别取地址、sub 相减，把"算长度"这件事完全
      * 挪到运行时用寄存器做，绕开了对汇编期常量折叠的依赖。 */
-    la a0, msg
-    la a1, msg_end
+    lla a0, msg
+    lla a1, msg_end
     sub a1, a1, a0
     li a7, 1 /* SYS_WRITE，跟 syscall.h 的 SYS_WRITE 数值必须一致——
               * 用户程序不能 #include 内核头文件，跟 x86_64 侧同一个

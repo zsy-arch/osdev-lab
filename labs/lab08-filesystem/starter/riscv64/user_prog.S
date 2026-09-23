@@ -282,40 +282,40 @@ _user_start:
  * 本身——错误信息的"分辨率"完全取决于你预先准备了几条不同的消息。
  * exit(1) 而不是死循环：让内核能看到非零退出码。 */
 open_failed:
-    la a0, msg_open_failed
-    la a1, msg_open_failed_end
+    lla a0, msg_open_failed
+    lla a1, msg_open_failed_end
     sub a1, a1, a0
     li a7, 1
     ecall
     j fail_exit
 
 read_failed:
-    la a0, msg_read_failed
-    la a1, msg_read_failed_end
+    lla a0, msg_read_failed
+    lla a1, msg_read_failed_end
     sub a1, a1, a0
     li a7, 1
     ecall
     j fail_exit
 
 close_failed:
-    la a0, msg_close_failed
-    la a1, msg_close_failed_end
+    lla a0, msg_close_failed
+    lla a1, msg_close_failed_end
     sub a1, a1, a0
     li a7, 1
     ecall
     j fail_exit
 
 missing_file_unexpectedly_opened:
-    la a0, msg_missing_bad
-    la a1, msg_missing_bad_end
+    lla a0, msg_missing_bad
+    lla a1, msg_missing_bad_end
     sub a1, a1, a0
     li a7, 1
     ecall
     j fail_exit
 
 double_close_unexpectedly_ok:
-    la a0, msg_double_close_bad
-    la a1, msg_double_close_bad_end
+    lla a0, msg_double_close_bad
+    lla a1, msg_double_close_bad_end
     sub a1, a1, a0
     li a7, 1
     ecall

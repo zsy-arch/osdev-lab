@@ -17,9 +17,15 @@ _start:
      * 只是实现上的惯例，不是必须遵守的契约。本 Lab 的 kernel_main.c
      * 会读一个未显式初始化的静态变量来验证这段清零逻辑是否真的生效。
      *
-     * la 伪指令在 riscv64 下会展开成 auipc + addi 这类相对当前 PC 的
-     * 寻址序列（因为 -mcmodel=medany 生成的是位置无关的地址计算），
-     * 不需要关心底层展开细节，用起来和"把符号地址装进寄存器"完全一样。
+     * lla（load local address）伪指令在 riscv64 下会展开成 auipc +
+     * addi 这类相对当前 PC 的直接寻址序列（因为 -mcmodel=medany 生成的
+     * 是位置无关的地址计算），不需要关心底层展开细节，用起来和"把符号
+     * 地址装进寄存器"完全一样。这里特意用 lla 不用看起来更常见的 la：
+     * la 在不少 riscv64-linux-gnu 工具链下默认按"支持 PIC/动态链接"
+     * 展开成经 GOT 间接寻址的序列，而这份 freestanding 内核
+     * （-nostdlib -static）根本没有 GOT，符号地址算出来的间接寻址一旦
+     * 超出编码范围就会在链接期报 relocation truncated to fit:
+     * R_RISCV_GOT_HI20。lla 保证永远是直接形式，没有这个隐患。
      *
      * 伪代码（t0 走地址，t1 是结束地址）：
      *   t0 = __bss_start
@@ -30,8 +36,8 @@ _start:
      *   }
      *
      * 提示：
-     *   la t0, __bss_start
-     *   la t1, __bss_end
+     *   lla t0, __bss_start
+     *   lla t1, __bss_end
      *   clear_bss:
      *   bge t0, t1, bss_cleared
      *   sb zero, 0(t0)
@@ -47,7 +53,7 @@ _start:
      * linker.ld 里 __stack_top 已经用 . = ALIGN(16); 保证了这一点。
      *
      * 提示：
-     *   la sp, __stack_top
+     *   lla sp, __stack_top
      *   call kernel_main
      */
 

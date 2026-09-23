@@ -54,13 +54,13 @@ _user_start:
     mv s0, sp
 
     /* ---- 1. hello.txt：一次读完（文件不足一块） ---- */
-    la a0, msg_open_hello
-    la a1, msg_open_hello_end
+    lla a0, msg_open_hello
+    lla a1, msg_open_hello_end
     sub a1, a1, a0
     li a7, 1 /* SYS_WRITE */
     ecall
 
-    la a0, name_hello
+    lla a0, name_hello
     li a7, 6 /* SYS_OPEN */
     ecall
     bltz a0, open_failed
@@ -91,13 +91,13 @@ _user_start:
     bltz a0, close_failed
 
     /* ---- 2. motd.txt：循环读，跨多个块 ---- */
-    la a0, msg_open_motd
-    la a1, msg_open_motd_end
+    lla a0, msg_open_motd
+    lla a1, msg_open_motd_end
     sub a1, a1, a0
     li a7, 1 /* SYS_WRITE */
     ecall
 
-    la a0, name_motd
+    lla a0, name_motd
     li a7, 6 /* SYS_OPEN */
     ecall
     bltz a0, open_failed
@@ -124,8 +124,8 @@ motd_read_done:
     ecall
     bltz a0, close_failed
 
-    la a0, msg_motd_eof
-    la a1, msg_motd_eof_end
+    lla a0, msg_motd_eof
+    lla a1, msg_motd_eof_end
     sub a1, a1, a0
     li a7, 1 /* SYS_WRITE */
     ecall
@@ -138,13 +138,13 @@ motd_read_done:
      * 于是把块 0（超级块）当文件内容打出来，屏幕上是一串乱码；本 Lab 的
      * 写法会在 addr == 0 处 panic 停机。两种都很吵，不会静默通过——这
      * 正是挑这个文件大小的目的。 */
-    la a0, msg_open_exact
-    la a1, msg_open_exact_end
+    lla a0, msg_open_exact
+    lla a1, msg_open_exact_end
     sub a1, a1, a0
     li a7, 1 /* SYS_WRITE */
     ecall
 
-    la a0, name_exact
+    lla a0, name_exact
     li a7, 6 /* SYS_OPEN */
     ecall
     bltz a0, open_failed
@@ -171,8 +171,8 @@ exact_read_done:
     ecall
     bltz a0, close_failed
 
-    la a0, msg_exact_eof
-    la a1, msg_exact_eof_end
+    lla a0, msg_exact_eof
+    lla a1, msg_exact_eof_end
     sub a1, a1, a0
     li a7, 1 /* SYS_WRITE */
     ecall
@@ -181,13 +181,13 @@ exact_read_done:
     /* 这一步验证的是"用户程序的错误不应该搞停内核"。如果内核在
      * fs_lookup() 找不到文件时 panic 而不是返回 0，这里整个系统就挂了
      * ——正确的行为是用户程序拿到 -1、自己决定怎么办。 */
-    la a0, name_nope
+    lla a0, name_nope
     li a7, 6 /* SYS_OPEN */
     ecall
     bgez a0, missing_file_unexpectedly_opened
 
-    la a0, msg_missing_ok
-    la a1, msg_missing_ok_end
+    lla a0, msg_missing_ok
+    lla a1, msg_missing_ok_end
     sub a1, a1, a0
     li a7, 1 /* SYS_WRITE */
     ecall
@@ -200,15 +200,15 @@ exact_read_done:
     ecall
     bgez a0, double_close_unexpectedly_ok
 
-    la a0, msg_double_close_ok
-    la a1, msg_double_close_ok_end
+    lla a0, msg_double_close_ok
+    lla a1, msg_double_close_ok_end
     sub a1, a1, a0
     li a7, 1 /* SYS_WRITE */
     ecall
 
     /* ---- 6. 全部通过 ---- */
-    la a0, msg_all_ok
-    la a1, msg_all_ok_end
+    lla a0, msg_all_ok
+    lla a1, msg_all_ok_end
     sub a1, a1, a0
     li a7, 1 /* SYS_WRITE */
     ecall
@@ -224,40 +224,40 @@ exact_read_done:
  * 没有 printf 能把错误码打出来，唯一能携带信息的就是消息本身。
  * exit(1) 而不是死循环：让内核能看到非零退出码。 */
 open_failed:
-    la a0, msg_open_failed
-    la a1, msg_open_failed_end
+    lla a0, msg_open_failed
+    lla a1, msg_open_failed_end
     sub a1, a1, a0
     li a7, 1
     ecall
     j fail_exit
 
 read_failed:
-    la a0, msg_read_failed
-    la a1, msg_read_failed_end
+    lla a0, msg_read_failed
+    lla a1, msg_read_failed_end
     sub a1, a1, a0
     li a7, 1
     ecall
     j fail_exit
 
 close_failed:
-    la a0, msg_close_failed
-    la a1, msg_close_failed_end
+    lla a0, msg_close_failed
+    lla a1, msg_close_failed_end
     sub a1, a1, a0
     li a7, 1
     ecall
     j fail_exit
 
 missing_file_unexpectedly_opened:
-    la a0, msg_missing_bad
-    la a1, msg_missing_bad_end
+    lla a0, msg_missing_bad
+    lla a1, msg_missing_bad_end
     sub a1, a1, a0
     li a7, 1
     ecall
     j fail_exit
 
 double_close_unexpectedly_ok:
-    la a0, msg_double_close_bad
-    la a1, msg_double_close_bad_end
+    lla a0, msg_double_close_bad
+    lla a1, msg_double_close_bad_end
     sub a1, a1, a0
     li a7, 1
     ecall

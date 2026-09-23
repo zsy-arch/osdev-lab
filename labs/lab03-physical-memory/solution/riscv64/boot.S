@@ -19,8 +19,8 @@ _start:
     /* a0 = hartid, a1 = DTB 物理地址——从这里到 call kernel_main 之间
      * 只有 BSS 清零循环，用的是 t0/t1，不碰 a0/a1，原样存活到 C 函数。 */
 
-    la t0, __bss_start
-    la t1, __bss_end
+    lla t0, __bss_start
+    lla t1, __bss_end
 clear_bss:
     bge t0, t1, bss_cleared
     sb zero, 0(t0)
@@ -28,7 +28,7 @@ clear_bss:
     j clear_bss
 bss_cleared:
 
-    la sp, __stack_top
+    lla sp, __stack_top
     call kernel_main
 
 1:  wfi

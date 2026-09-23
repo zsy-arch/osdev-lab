@@ -59,9 +59,9 @@ from_user:
     /* SPP=0：sp 是用户栈指针，先存进全局变量（不压栈，理由见上面
      * 模块注释），再换上内核栈——顺序不能颠倒：如果先换栈，原来的
      * 用户 sp 值就丢了，没有第二个地方能找回它。 */
-    la t0, trap_saved_user_sp
+    lla t0, trap_saved_user_sp
     sd sp, 0(t0)
-    la sp, __stack_top
+    lla sp, __stack_top
 
 from_supervisor:
     addi sp, sp, -128
@@ -122,7 +122,7 @@ from_supervisor:
      * 哪个特权级"，不是"处理完之后 sstatus 变成了什么"。 */
     bnez t1, trap_return
 
-    la t0, trap_saved_user_sp
+    lla t0, trap_saved_user_sp
     ld sp, 0(t0)
 
 trap_return:

@@ -8,8 +8,8 @@
 .global _start
 .type _start, @function
 _start:
-    la t0, __bss_start
-    la t1, __bss_end
+    lla t0, __bss_start
+    lla t1, __bss_end
 clear_bss:
     bge t0, t1, bss_cleared
     sb zero, 0(t0)
@@ -17,7 +17,7 @@ clear_bss:
     j clear_bss
 bss_cleared:
 
-    la sp, __stack_top
+    lla sp, __stack_top
     call kernel_main
 
 1:  wfi

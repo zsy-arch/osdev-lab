@@ -24,7 +24,7 @@
 _start:
     /* a0/a1 暂时不用，但特意不覆盖它们（没有拿 a0/a1 做任何运算），
      * 如果后面的 Lab 需要它们，调用约定上它们还完好地留在原处。 */
-    la sp, stack_top
+    lla sp, stack_top
     call kernel_main
 
     /* kernel_main 正常不会返回；意外返回时用 wfi（Wait For Interrupt）

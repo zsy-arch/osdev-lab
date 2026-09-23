@@ -145,9 +145,9 @@ from_user:
      * `la sp, __stack_top` 多一步,这一步换来的是"每个进程用自己的
      * 内核栈"这个 Lab7 的核心机制,见本文件顶部模块注释里"共享栈
      * 覆盖"故障的完整描述。 */
-    la t0, trap_saved_user_sp
+    lla t0, trap_saved_user_sp
     sd sp, 0(t0)
-    la t0, trap_kernel_sp_top
+    lla t0, trap_kernel_sp_top
     ld sp, 0(t0)
 
 from_supervisor:
@@ -234,7 +234,7 @@ from_supervisor:
      * 混淆成同一件事,改名 do_sret 避免这种误解。 */
     bnez t1, do_sret
 
-    la t0, trap_saved_user_sp
+    lla t0, trap_saved_user_sp
     ld sp, 0(t0)
 
 do_sret:

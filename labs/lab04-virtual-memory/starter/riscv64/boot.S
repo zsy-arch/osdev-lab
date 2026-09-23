@@ -51,11 +51,11 @@ boot_stack_top:
 .global _start
 .type _start, @function
 _start:
-    la t0, boot_stack_top
+    lla t0, boot_stack_top
     mv sp, t0
 
-    la t0, __bss_start_phys
-    la t1, __bss_end_phys
+    lla t0, __bss_start_phys
+    lla t1, __bss_end_phys
 clear_bss:
     bge t0, t1, bss_cleared
     sb zero, 0(t0)
@@ -95,7 +95,7 @@ bss_cleared:
      *   srli t0, t0, 12
      *   slli t0, t0, 10
      *   ori t0, t0, 0xf       # t0 = 编码好的 PTE
-     *   la t1, boot_leaf
+     *   lla t1, boot_leaf
      *   slli t3, t2, 3
      *   add t1, t1, t3        # t1 = &boot_leaf[t2]
      *   sd t0, 0(t1)
@@ -114,11 +114,11 @@ bss_cleared:
      * 第 1025 个 2MiB 窗口（0x80200000/0x200000=1025），1025 & 0x1ff=1。
      *
      * 提示（对 boot_l1_low 和 boot_l1_high 各做一次，索引都是 1*8）：
-     *   la t0, boot_leaf
+     *   lla t0, boot_leaf
      *   srli t0, t0, 12
      *   slli t0, t0, 10
      *   ori t0, t0, 0x1
-     *   la t1, boot_l1_low      # 第二次换成 boot_l1_high
+     *   lla t1, boot_l1_low      # 第二次换成 boot_l1_high
      *   li t3, 1*8
      *   add t1, t1, t3
      *   sd t0, 0(t1)
@@ -142,11 +142,11 @@ bss_cleared:
      *
      * 提示（对 boot_l1_low→boot_l2[2]、boot_l1_high→boot_l2[258] 各做
      * 一次，标志位只有 V=0x1）：
-     *   la t0, boot_l1_low
+     *   lla t0, boot_l1_low
      *   srli t0, t0, 12
      *   slli t0, t0, 10
      *   ori t0, t0, 0x1
-     *   la t1, boot_l2
+     *   lla t1, boot_l2
      *   li t3, 2*8               # 第二次换成 258*8
      *   add t1, t1, t3
      *   sd t0, 0(t1)
@@ -167,16 +167,16 @@ bss_cleared:
      *   srli t0, t0, 12
      *   slli t0, t0, 10
      *   ori t0, t0, 0x7
-     *   la t1, boot_uart_leaf
+     *   lla t1, boot_uart_leaf
      *   sd t0, 0(t1)
      *
      * 然后把 boot_uart_leaf 安装进 boot_l1_uart[128]（0x10000000 的
      * VPN[1]=(0x10000000>>21)&0x1ff=128，不是 0），标志位只有 V=0x1：
-     *   la t0, boot_uart_leaf
+     *   lla t0, boot_uart_leaf
      *   srli t0, t0, 12
      *   slli t0, t0, 10
      *   ori t0, t0, 0x1
-     *   la t1, boot_l1_uart
+     *   lla t1, boot_l1_uart
      *   li t3, 128*8
      *   add t1, t1, t3
      *   sd t0, 0(t1)
@@ -184,11 +184,11 @@ bss_cleared:
      * 最后把 boot_l1_uart 安装进 boot_l2[0]（0x10000000 的 VPN[2]=0，
      * 恰好是 boot_l2 的第 0 项，和内核镜像身份映射用的 boot_l2[2]是
      * 两个不同的顶层槽位，互不冲突），标志位只有 V=0x1：
-     *   la t0, boot_l1_uart
+     *   lla t0, boot_l1_uart
      *   srli t0, t0, 12
      *   slli t0, t0, 10
      *   ori t0, t0, 0x1
-     *   la t1, boot_l2
+     *   lla t1, boot_l2
      *   sd t0, 0(t1)
      */
 
@@ -198,13 +198,13 @@ bss_cleared:
      * 的 PC 相对寻址限制（此刻 PC 是低地址，memmap_discover 链接在高
      * 地址，普通 call 编码不了这么远的跳转）。 */
     mv a0, s1
-    la t0, memmap_discover_lo_target
+    lla t0, memmap_discover_lo_target
     ld t1, 0(t0)
     jalr ra, 0(t1)
 
     /* 阶段 B：装 satp 并打开分页。MODE=8（Sv39,bit 63-60),PPN 是
      * boot_l2 的物理地址右移 12 位。已经写好，不是 TODO。 */
-    la t0, boot_l2
+    lla t0, boot_l2
     srli t0, t0, 12
     li t1, 8
     slli t1, t1, 60
@@ -213,7 +213,7 @@ bss_cleared:
     sfence.vma zero, zero
 
     /* 阶段 C：跳到高地址。已经写好，不是 TODO。 */
-    la t0, lo_target
+    lla t0, lo_target
     ld t1, 0(t0)
     jr t1
 
@@ -228,7 +228,7 @@ memmap_discover_lo_target:
 .global boot_stage2_high
 .type boot_stage2_high, @function
 boot_stage2_high:
-    la t0, __stack_top
+    lla t0, __stack_top
     mv sp, t0
     mv a0, s0
     mv a1, s1

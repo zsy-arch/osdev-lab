@@ -289,7 +289,7 @@ from_user:
      * 这个 Lab7 的核心机制,见本文件顶部模块注释里"共享栈覆盖"故障的
      * 完整描述。 */
     csrrw t0, sscratch, sp
-    la sp, trap_kernel_sp_top
+    lla sp, trap_kernel_sp_top
     ld sp, 0(sp)
     addi sp, sp, -TF_SIZE
     sd t0, TF_T0(sp)

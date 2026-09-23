@@ -26,9 +26,15 @@ _start:
      * 保证了这一点，你只需要把地址装进 sp。
      *
      * 提示：
-     *   la sp, stack_top
+     *   lla sp, stack_top
      *   call kernel_main
-     */
+     *
+     * 用 lla（load local address）不用 la：两者在不少环境下展开结果
+     * 一样，但 la 在某些 riscv64-linux-gnu 工具链默认按"位置无关代码"
+     * 展开成经 GOT 间接寻址的序列，这份 freestanding、没有 GOT 的内核
+     * 撑不起这个假设，符号稍微离得远一点就会在链接期报
+     * relocation truncated to fit: R_RISCV_GOT_HI20。lla 保证始终是
+     * 直接的 auipc+addi，没有这个隐患。 */
 
 1:  wfi
     j 1b

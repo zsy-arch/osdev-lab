@@ -121,7 +121,7 @@ boot_stack_top:
 .global _start
 .type _start, @function
 _start:
-    la t0, boot_stack_top
+    lla t0, boot_stack_top
     mv sp, t0
 
     /* __bss_start/__bss_end 本身是高 VMA 符号——不能直接
@@ -131,11 +131,14 @@ _start:
      * *地址*本身进寄存器,不是一次性经过 jalr 消费掉的跳转目标,直接用
      * la 加载 .dword 里存的常量当然也可以,但链接脚本里定义
      * __bss_start_phys/__bss_end_phys 这两个新符号更直接——把减法运算
-     * 挪到链接期,boot.S 里退化成两条普通的 `la`,不需要额外一层
-     * .dword+ld 中转,和 x86_64 版本的解法保持一致（那边同样在
-     * linker.ld 里定义了 __bss_start_phys/__bss_end_phys)。 */
-    la t0, __bss_start_phys
-    la t1, __bss_end_phys
+     * 挪到链接期,boot.S 里退化成两条普通的 `lla`（不是 la——这份
+     * freestanding 内核没有 GOT,用 lla 保证展开成直接的 auipc+addi,
+     * 不会被某些 riscv64-linux-gnu 工具链默认展开成经 GOT 间接寻址,
+     * 链接期报 relocation truncated to fit: R_RISCV_GOT_HI20),不需要
+     * 额外一层 .dword+ld 中转,和 x86_64 版本的解法保持一致（那边同样
+     * 在 linker.ld 里定义了 __bss_start_phys/__bss_end_phys)。 */
+    lla t0, __bss_start_phys
+    lla t1, __bss_end_phys
 clear_bss:
     bge t0, t1, bss_cleared
     sb zero, 0(t0)
@@ -193,7 +196,7 @@ fill_leaf:
     srli t0, t0, 12
     slli t0, t0, 10
     ori t0, t0, 0xf
-    la t1, boot_leaf
+    lla t1, boot_leaf
     slli t3, t2, 3
     add t1, t1, t3
     sd t0, 0(t1)
@@ -216,15 +219,15 @@ fill_leaf:
      * 完全相等,boot_l1_low/boot_l1_high 才能安全地共用同一个索引、
      * 指向同一份 boot_leaf——这一点在 boot_l2 顶层索引 2/258 那段
      * 长注释里详细算过,这里不重复推导。 */
-    la t0, boot_leaf
+    lla t0, boot_leaf
     srli t0, t0, 12
     slli t0, t0, 10
     ori t0, t0, 0x1
-    la t1, boot_l1_low
+    lla t1, boot_l1_low
     li t3, 1*8
     add t1, t1, t3
     sd t0, 0(t1)
-    la t1, boot_l1_high
+    lla t1, boot_l1_high
     li t3, 1*8
     add t1, t1, t3
     sd t0, 0(t1)
@@ -256,20 +259,20 @@ fill_leaf:
      *     不是 511（0b111111111)——两种架构的"高地址对应最后一项"这个
      *     直觉在 x86_64 上恰好成立,在 riscv64 Sv39 上不成立,不能类比,
      *     必须重新按公式算。 */
-    la t0, boot_l1_low
+    lla t0, boot_l1_low
     srli t0, t0, 12
     slli t0, t0, 10
     ori t0, t0, 0x1
-    la t1, boot_l2
+    lla t1, boot_l2
     li t3, 2*8
     add t1, t1, t3
     sd t0, 0(t1)
 
-    la t0, boot_l1_high
+    lla t0, boot_l1_high
     srli t0, t0, 12
     slli t0, t0, 10
     ori t0, t0, 0x1
-    la t1, boot_l2
+    lla t1, boot_l2
     li t3, 258*8
     add t1, t1, t3
     sd t0, 0(t1)
@@ -297,18 +300,18 @@ fill_leaf:
     srli t0, t0, 12
     slli t0, t0, 10
     ori t0, t0, 0x7
-    la t1, boot_uart_leaf
+    lla t1, boot_uart_leaf
     sd t0, 0(t1)
 
     /* boot_l1_uart[128] -> boot_uart_leaf：0x10000000 的 VPN[1]=128
      * （(0x10000000>>21)&0x1ff),不是 0——UART 物理地址本身不是 2MiB
      * 对齐的整数倍窗口的第 0 个,算法和上面 boot_l2 顶层索引推导是
      * 同一套公式,这里不重复推导过程,只给结论。 */
-    la t0, boot_uart_leaf
+    lla t0, boot_uart_leaf
     srli t0, t0, 12
     slli t0, t0, 10
     ori t0, t0, 0x1
-    la t1, boot_l1_uart
+    lla t1, boot_l1_uart
     li t3, 128*8
     add t1, t1, t3
     sd t0, 0(t1)
@@ -316,11 +319,11 @@ fill_leaf:
     /* boot_l2[0] -> boot_l1_uart：0x10000000 的 VPN[2]=0,恰好是
      * boot_l2 里真正的第 0 项——和内核镜像身份映射用的 boot_l2[2]是
      * 两个不同的顶层槽位,互不冲突,可以放心分别安装。 */
-    la t0, boot_l1_uart
+    lla t0, boot_l1_uart
     srli t0, t0, 12
     slli t0, t0, 10
     ori t0, t0, 0x1
-    la t1, boot_l2
+    lla t1, boot_l2
     sd t0, 0(t1)
 
     /* 在打开分页之前调用 memmap_discover(dtb_paddr)——原因见文件顶部
@@ -346,13 +349,13 @@ fill_leaf:
      * 不会碰),阶段 C 跳过去之后 boot_stage2_high 照常从 s0/s1 取
      * hartid/dtb_paddr 传给 kernel_boot,不受影响。 */
     mv a0, s1
-    la t0, memmap_discover_lo_target
+    lla t0, memmap_discover_lo_target
     ld t1, 0(t0)
     jalr ra, 0(t1)
 
     /* 阶段 B：装 satp 并打开分页。MODE=8（Sv39,bit 63-60),PPN 是
      * boot_l2 的物理地址右移 12 位。 */
-    la t0, boot_l2
+    lla t0, boot_l2
     srli t0, t0, 12
     li t1, 8
     slli t1, t1, 60
@@ -367,7 +370,7 @@ fill_leaf:
      * .text.boot 里,VMA=LMA=低地址,所以 auipc+ld 这两条指令算出来的
      * "lo_target 的地址"是对的,读出来的 8 字节内容才是我们真正要用的
      * 高地址绝对值),读出来的值直接扔进 jalr 的目标寄存器。 */
-    la t0, lo_target
+    lla t0, lo_target
     ld t1, 0(t0)
     jr t1
 
@@ -387,7 +390,7 @@ memmap_discover_lo_target:
 .global boot_stage2_high
 .type boot_stage2_high, @function
 boot_stage2_high:
-    la t0, __stack_top
+    lla t0, __stack_top
     mv sp, t0
     mv a0, s0
     mv a1, s1
