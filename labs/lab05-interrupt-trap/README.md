@@ -130,9 +130,9 @@ bash ../../scripts/run-qemu.sh ARCH=riscv64 LAB=lab05-interrupt-trap VARIANT=sol
 riscv64 预期输出：
 
 ```
-memmap: 1 region(s) from DTB /memory, 32216 page(s) free (kernel image excluded)
+memmap: 1 region(s) from DTB /memory, 32241 page(s) free (kernel image excluded)
 Hello OS from riscv64 (Lab5: interrupt & timer)
-kernel image: phys [0x80200000, 0x80228000)
+kernel image: phys [0x80200000, 0x8020f000)
 switched to Lab4 page table, low identity map gone
 page table from Lab4 verified, moving on to Lab5's interrupt framework
 timer armed at 100Hz, entering main loop

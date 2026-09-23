@@ -60,7 +60,7 @@
  *     少一步——memmap_discover() 已经在阶段 A 调完了,这里只需要建
  *     正式页表、切换过去、进入 kernel_main() 的演示逻辑。 */
 .section .bss.boot, "aw", @nobits
-.align 4096
+.balign 4096
 /* 放在 .bss.boot（linker.ld 里 VMA=LMA=低地址,和 .text.boot 同一个
  * 理由,见那份文件对应位置的注释)而不是普通 .bss——下面这些结构全靠
  * 阶段 A 的 `la` 直接引用,-mcmodel=medany 下 la 展开成相对当前 PC 的
@@ -112,7 +112,7 @@ boot_l1_uart:
 boot_uart_leaf:
     .skip 4096
 
-.align 16
+.balign 16
 boot_stack_bottom:
     .skip 128
 boot_stack_top:
@@ -371,7 +371,7 @@ fill_leaf:
     ld t1, 0(t0)
     jr t1
 
-.align 8
+.balign 8
 lo_target:
     .dword boot_stage2_high
 memmap_discover_lo_target:

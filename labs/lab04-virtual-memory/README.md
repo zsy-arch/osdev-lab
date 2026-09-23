@@ -140,9 +140,9 @@ bash ../../scripts/run-qemu.sh ARCH=riscv64 LAB=lab04-virtual-memory VARIANT=sol
 riscv64 预期输出：
 
 ```
-memmap: 1 region(s) from DTB /memory, 32217 page(s) free (kernel image excluded)
+memmap: 1 region(s) from DTB /memory, 32241 page(s) free (kernel image excluded)
 Hello OS from riscv64 (Lab4: virtual memory)
-kernel image: phys [0x80200000, 0x80227000)
+kernel image: phys [0x80200000, 0x8020f000)
 switched to Lab4 page table, low identity map gone
 non-identity mapping OK: VA=0xffffffc010000000 -> PA=0x80200000
 kernel self-map verified

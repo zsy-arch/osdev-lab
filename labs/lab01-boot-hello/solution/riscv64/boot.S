@@ -36,6 +36,6 @@ _start:
 .size _start, . - _start
 
 .section .bss
-.align 16   /* RISC-V 调用约定要求函数调用边界上 sp 是 16 字节对齐的 */
+.balign 16   /* RISC-V 调用约定要求函数调用边界上 sp 是 16 字节对齐的 */
 .skip 16384    /* 16KiB 内核启动栈，Lab1 阶段够用，Lab2 会重新规划栈布局 */
 stack_top:

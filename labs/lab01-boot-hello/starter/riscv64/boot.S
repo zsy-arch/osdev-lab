@@ -35,6 +35,6 @@ _start:
 .size _start, . - _start
 
 .section .bss
-.align 16
+.balign 16
 .skip 16384
 stack_top:

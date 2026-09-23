@@ -144,9 +144,9 @@ bash ../../scripts/run-qemu.sh ARCH=riscv64 LAB=lab06-syscall-user VARIANT=solut
 riscv64 预期输出（本 README 撰写时在 QEMU 里实测确认，OpenSBI 启动横幅省略）：
 
 ```
-memmap: 1 region(s) from DTB /memory, 32216 page(s) free (kernel image excluded)
+memmap: 1 region(s) from DTB /memory, 32241 page(s) free (kernel image excluded)
 Hello OS from riscv64 (Lab6: syscall & user mode)
-kernel image: phys [0x80200000, 0x80228000)
+kernel image: phys [0x80200000, 0x8020f000)
 switched to page table, low identity map gone
 timer armed, ecall entry armed, building user program
 user program mapped, entering user mode

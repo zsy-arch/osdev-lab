@@ -15,7 +15,7 @@
  * 就调用了它——这部分已经写好，不是 TODO。
  */
 .section .bss.boot, "aw", @nobits
-.align 4096
+.balign 4096
 /* 阶段 A 的临时页表。riscv64 Sv39 只需要 3 级,但本 Lab 不用大页,阶段 A
  * 得手动填满第 3 级（叶子级)512 项——一张叶子表 512*4KiB=2MiB,只做
  * 2MiB 身份映射,够 kernel_boot() 自己跑起来、读 DTB、调用 kalloc 就
@@ -42,7 +42,7 @@ boot_l1_uart:
 boot_uart_leaf:
     .skip 4096
 
-.align 16
+.balign 16
 boot_stack_bottom:
     .skip 128
 boot_stack_top:
@@ -217,7 +217,7 @@ bss_cleared:
     ld t1, 0(t0)
     jr t1
 
-.align 8
+.balign 8
 lo_target:
     .dword boot_stage2_high
 memmap_discover_lo_target:

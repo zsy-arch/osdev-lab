@@ -12,6 +12,13 @@ build/
 # clean 目标，它跟 build/ 一起被清理）。
 user_prog.bin
 
+# mkfs 是宿主工具编译产物（labs/lab08-filesystem、lab09-shell-userspace
+# 下的 mkfs/mkfs.c 用 HOSTCC 编译出来的原生二进制），不能跨平台/跨机器
+# 复用——之前误提交过一份 macOS/arm64 的 Mach-O 到仓库里，在 Linux CI 上
+# 被当成 shell 脚本执行导致 "word unexpected" 报错。用无扩展名匹配排除
+# 掉，不排除同目录下的 mkfs.c 源文件。
+labs/*/mkfs/mkfs
+
 # 串口输出抓取：scripts/test-lab.sh 跑 QEMU 时的临时日志。
 *.serial.log
 serial-*.txt
